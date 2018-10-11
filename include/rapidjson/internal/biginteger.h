@@ -17,7 +17,7 @@
 
 #include "../rapidjson.h"
 
-#if defined(_MSC_VER) && !__INTEL_COMPILER && defined(_M_AMD64) && !defined(ENCLAVE_CODE)
+#if defined(_MSC_VER) && !__INTEL_COMPILER && defined(_M_AMD64) && !defined(ENCLAVE_ENVIRONMENT)
 #include <intrin.h> // for _umul128
 #pragma intrinsic(_umul128)
 #endif
@@ -247,7 +247,7 @@ private:
 
     // Assume a * b + k < 2^128
     static uint64_t MulAdd64(uint64_t a, uint64_t b, uint64_t k, uint64_t* outHigh) {
-#if defined(_MSC_VER) && defined(_M_AMD64) && !defined(ENCLAVE_CODE)
+#if defined(_MSC_VER) && defined(_M_AMD64) && !defined(ENCLAVE_ENVIRONMENT)
         uint64_t low = _umul128(a, b, outHigh) + k;
         if (low < k)
             (*outHigh)++;
